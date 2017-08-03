@@ -2,10 +2,13 @@ import aiohttp
 import aiofiles
 import asyncio
 import async_timeout
+import argparse
 import os
+import sys
 import time
 from bs4 import BeautifulSoup
 
+# Global Constants
 LOOP_TIME = 10 # In Seconds
 TIMEOUT = 30
 RUNNING = True
@@ -20,8 +23,7 @@ async def save_url(session, href: str):
 	async with aiofiles.open(file_dir, mode='w') as file:
 		try:
 			await file.write(response)
-			await print('Added: ' + file_dir)
-		except UnicodeError:
+		except (UnicodeError, TypeError):
 			pass
 
 # Yields recent pastes from pastebin's homepage
@@ -39,15 +41,36 @@ async def fetch(session, url: str):
 				return await response.text()
 	except asyncio.TimeoutError:
 		print('Connection timed out after {} seconds.'.format(TIMEOUT))
+		sys.exit(0)
 
 async def main():
+	# Initiate Connection
 	async with aiohttp.ClientSession() as session:
 		html = await fetch(session, URL)
 		
-		async for href in get_links(html):
-			await save_url(session, href)
+		try:
+			async for href in get_links(html):
+				await save_url(session, href)
+		except TypeError:
+			pass
 
 if __name__ == '__main__':
+	# Argparse
+	parser = argparse.ArgumentParser()
+	parser.add_argument('-t', '-timeout', type=int,
+						help='Timeout in seconds. Default is 15',
+						default=15)
+	parser.add_argument('-l', '-loops', type=int,
+						help='Loop time in seconds. 10 is default.',
+						default=10)
+
+	args = parser.parse_args()
+
+	TIMEOUT = args.t
+	LOOP_TIME = args.l
+
+	print('Timeout: {}\nLoop Time: {}'.format(TIMEOUT, LOOP_TIME))
+
 	# Creates the directory if it doesn't exist.
 	if not os.path.exists(DIR):
 		os.makedirs(DIR)
