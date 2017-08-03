@@ -1,4 +1,5 @@
 import aiohttp
+import aiofiles
 import asyncio
 import async_timeout
 import os
@@ -16,10 +17,10 @@ async def save_url(session, href: str):
 	raw = 'https://pastebin.com/raw/' + href
 	response = await fetch(session, raw)
 	file_dir = '{}/{}.txt'.format(DIR, href)
-	with open(file_dir, 'w') as file:
+	async with aiofiles.open(file_dir, mode='w') as file:
 		try:
-			file.write(response)
-			print('Added: ' + file_dir)
+			await file.write(response)
+			await print('Added: ' + file_dir)
 		except UnicodeError:
 			pass
 
@@ -32,9 +33,12 @@ async def get_links(html: str):
 
 # Function to fetch the page's HTML
 async def fetch(session, url: str):
-	with async_timeout.timeout(TIMEOUT):
-		async with session.get(url) as response:
-			return await response.text()
+	try:
+		with async_timeout.timeout(TIMEOUT):
+			async with session.get(url) as response:
+				return await response.text()
+	except asyncio.TimeoutError:
+		print('Connection timed out after {} seconds.'.format(TIMEOUT))
 
 async def main():
 	async with aiohttp.ClientSession() as session:
