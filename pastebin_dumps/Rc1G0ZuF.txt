@@ -1,1 +1,0 @@
-U.12526.2961137664: Aug 08 2017:13:23:46.702:   ERROR: es_json.cpp: 2367: While fetching agent guid. error code = 12 but setting guid to a static value

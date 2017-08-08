@@ -1,3 +1,0 @@
-git archive --format=tar --prefix=git-1.4.0/ v1.4.0 | gzip >git-1.4.0.tar.gz  # Create a compressed tarball for v1.4.0 release.
-
-git archive --format=zip --prefix=git-1.4.0/ v1.4.0 > git-1.4.0-docs.zip  # Create a compressed zipball for v1.4.0 release.
