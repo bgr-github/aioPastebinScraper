@@ -1,0 +1,29 @@
+<?php
+
+//Written by ForthyUK
+
+// $username="******";
+// $password="******";
+// $database="******";
+
+// $title=$_POST['title'];
+// $description=$_POST['description'];
+// $date=$_POST['date];
+// $complete=$_POST['complete];
+
+// mysql_connect("localhost",$username,$password);
+// @mysql_select_db($database) or die( "Unable to select database");
+
+// mysql_query("INSERT INTO tasklist (title, description, date, complete)
+	// 		VALUES ('$title','$description',NOW(),0)");
+
+
+
+// if(!mysql_db_query($database,$query)) die(mysql_error());
+
+echo "<p>The new task has been submitted!</p><br />";
+echo "<a href="tasktracker.htm">Click here to view the tasklist</a><br />";
+echo "<a href="addtaskform.htm">Click here to add another task</a>";
+
+// mysql_close();
+?>

@@ -1,0 +1,17 @@
+# coding: utf-8
+from django.http import HttpResponse
+from django.shortcuts import render
+from portal.cadastro.forms import CadastroForm
+
+def cadastro(request):
+    if request.method == 'POST':
+        form = CadastroForm(request.POST)
+    return render(request, 'cadastro.html',
+                        {'form': CadastroForm()})
+
+
+def cadastro1(request):
+    if request.method == 'POST':
+        form = CadastroForm(request.POST)
+    return render(request, 'cadastro1.html',
+                        {'form': CadastroForm()})

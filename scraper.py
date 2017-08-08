@@ -23,6 +23,7 @@ async def save_url(session, href: str):
 	async with aiofiles.open(file_dir, mode='w') as file:
 		try:
 			await file.write(response)
+			print('=> ' + href)
 		except (UnicodeError, TypeError):
 			pass
 
