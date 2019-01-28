@@ -20,9 +20,9 @@ async def save_url(session, href: str):
 	raw = 'https://pastebin.com/raw/' + href
 	response = await fetch(session, raw)
 	file_dir = '{}/{}.txt'.format(DIR, href)
-	async with aiofiles.open(file_dir, mode='w') as file:
+	async with aiofiles.open(file_dir, mode='wb') as file:
 		try:
-			await file.write(response)
+			await file.write(response.encode('utf-8'))
 			print('=> ' + href)
 		except (UnicodeError, TypeError):
 			pass
