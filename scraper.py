@@ -21,11 +21,8 @@ async def save_url(session, href: str):
 	response = await fetch(session, raw)
 	file_dir = '{}/{}.txt'.format(DIR, href)
 	async with aiofiles.open(file_dir, mode='wb') as file:
-		try:
-			await file.write(response.encode('utf-8'))
-			print('=> ' + href)
-		except (UnicodeError, TypeError):
-			pass
+		await file.write(response.encode('utf-8'))
+		print('=> ' + href)
 
 # Yields recent pastes from pastebin's homepage
 async def get_links(html: str):
